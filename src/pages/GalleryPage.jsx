@@ -17,15 +17,13 @@ function Lightbox({ item, onClose }) {
       onClick={onClose}
     >
       <div
-        className="relative max-w-4xl w-full rounded-3xl overflow-hidden img-card"
+        className="relative max-w-4xl w-full rounded-3xl overflow-hidden bg-black"
         onClick={(e) => e.stopPropagation()}
       >
-        <img src={item.src} alt="" className="img-bg" aria-hidden="true" />
         <img
           src={item.src}
           alt={item.title ?? item.key}
-          className="img-fg"
-          style={{ maxHeight: "88vh" }}
+          className="w-full max-h-[88vh] object-contain"
         />
         {item.title && (
           <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent z-10">
@@ -87,12 +85,12 @@ function GuideLawGrid() {
             key={i}
             onClick={() => setActive(item)}
             className="img-card rounded-2xl cursor-pointer group"
+            style={{ height: "340px" }}
           >
-            <img src={item.src} alt="" className="img-bg" aria-hidden="true" />
             <img
               src={item.src}
               alt={item.title}
-              className="img-fg group-hover:scale-105 transition-transform duration-700"
+              className="group-hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent z-10" />
             <div className="absolute top-4 left-4 z-20 font-black text-2xl text-white/40">{item.num}</div>
@@ -125,7 +123,7 @@ function VideosGrid() {
             className="rounded-2xl overflow-hidden relative group cursor-pointer bg-gray-900"
             style={{ height: "300px" }}
           >
-            <video src={item.src} className="w-full h-full object-cover opacity-65" preload="metadata" playsInline />
+            <video src={item.src} className="w-full h-full object-cover object-top opacity-65" preload="metadata" playsInline />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/35 transition-colors">
@@ -161,12 +159,12 @@ function PhotoPool() {
             key={i}
             onClick={() => setActive(item)}
             className="img-card rounded-xl cursor-pointer group"
+            style={{ height: "300px" }}
           >
-            <img src={item.src} alt="" className="img-bg" aria-hidden="true" />
             <img
               src={item.src}
               alt={item.key}
-              className="img-fg group-hover:scale-105 transition-transform duration-500"
+              className="group-hover:scale-105 transition-transform duration-500"
             />
           </div>
         ))}

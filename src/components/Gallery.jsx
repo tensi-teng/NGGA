@@ -12,12 +12,15 @@ function Lightbox({ item, onClose }) {
       onClick={onClose}
     >
       <div
-        className="relative max-w-3xl w-full rounded-3xl overflow-hidden img-card"
-        style={{ maxHeight: "88vh" }}
+        className="relative max-w-3xl w-full rounded-3xl overflow-hidden bg-black"
+        style={{ maxHeight: "90vh" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <img src={item.src} alt={item.title} className="img-bg" aria-hidden="true" />
-        <img src={item.src} alt={item.title} className="img-fg" style={{ maxHeight: "88vh" }} />
+        <img
+          src={item.src}
+          alt={item.title}
+          className="w-full max-h-[90vh] object-contain"
+        />
         <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent z-10">
           <p className="text-xs font-black text-white/40 uppercase tracking-widest mb-1">{item.num}</p>
           <h3 className="text-2xl font-black text-white uppercase">{item.title}</h3>
@@ -60,17 +63,13 @@ function PhotoPreview() {
             key={i}
             onClick={() => setActive(item)}
             className="img-card rounded-3xl cursor-pointer group"
-            style={{ minHeight: "300px" }}
+            style={{ height: "380px" }}
           >
-            {/* blurred colour fill */}
-            <img src={item.src} alt="" className="img-bg" aria-hidden="true" />
-            {/* real image, no crop */}
             <img
               src={item.src}
               alt={item.title}
-              className="img-fg group-hover:scale-105 transition-transform duration-700"
+              className="group-hover:scale-105 transition-transform duration-700"
             />
-            {/* overlay + labels */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
             <div className="absolute top-4 left-4 z-20 font-black text-2xl text-white/40">{item.num}</div>
             <div className="absolute bottom-0 left-0 right-0 p-5 z-20">
@@ -94,7 +93,7 @@ function PhotoPreview() {
   );
 }
 
-// ── Video preview (first 4) — static thumbnail, plays only on click ──────────
+// ── Video preview (first 4) ───────────────────────────────────────────────────
 function VideoPreview() {
   const [active, setActive] = useState(null);
   const preview = resolvedVideoItems.slice(0, 4);
@@ -125,7 +124,7 @@ function VideoPreview() {
           >
             <video
               src={item.src}
-              className="w-full h-full object-cover opacity-70"
+              className="w-full h-full object-cover object-top opacity-70"
               preload="metadata"
               playsInline
             />
