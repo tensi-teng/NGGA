@@ -1,20 +1,23 @@
 import { IconArrowRight } from './Icons'
 import assetMap from '../utils/img'
 
-const tiles = [
-  // Thinking Day — col 1
-  { key: 'Thinking day/thinking-day-08', h: 'h-40', t: 'Thinking Day' },
-  { key: 'Thinking day/thinking-day-22', h: 'h-28', t: 'Thinking Day' },
-  { key: 'Thinking day/thinking-day-45', h: 'h-36', t: 'Thinking Day' },
-  // Birthday — col 2
-  { key: 'Birthday/birthday-02',         h: 'h-28', t: 'Birthday'     },
-  { key: 'Birthday/birthday-05',         h: 'h-40', t: 'Birthday'     },
-  { key: 'Birthday/birthday-10',         h: 'h-32', t: 'Birthday'     },
-  // Thanksgiving — col 3
-  { key: 'Thanksgiving/thanksgiving-01', h: 'h-36', t: 'Thanksgiving' },
-  { key: 'Thanksgiving/thanksgiving-02', h: 'h-28', t: 'Thanksgiving' },
-  { key: 'Thanksgiving/thanksgiving-03', h: 'h-40', t: 'Thanksgiving' },
-]
+// Pull every image from all event folders and shuffle them once at load time
+const allImages = Object.keys(assetMap)
+  .filter((k) => /\/(thinking-day|birthday|thanksgiving|meeting)-/.test(k) && !k.includes('vid-'))
+  .map((k) => assetMap[k])
+
+function shuffle(arr) {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
+// 9 random images, varying heights for the masonry feel
+const heights = ['h-40', 'h-28', 'h-36', 'h-28', 'h-40', 'h-32', 'h-36', 'h-28', 'h-40']
+const shuffled = shuffle(allImages).slice(0, 9)
 
 export default function Hero() {
   return (
@@ -42,12 +45,12 @@ export default function Hero() {
           </div>
         </div>
         <div className="columns-3 gap-3">
-          {tiles.map((item, i) => (
-            <div key={i} className={`${item.h} mb-3 break-inside-avoid rounded-2xl overflow-hidden bg-gray-800`}>
+          {shuffled.map((src, i) => (
+            <div key={i} className={`${heights[i]} mb-3 break-inside-avoid rounded-2xl overflow-hidden bg-gray-800`}>
               <img
-                src={assetMap[item.key]}
-                alt={item.t}
-                className="w-full h-full object-cover object-bottom hover:scale-110 transition-transform duration-500"
+                src={src}
+                alt="NGGA"
+                className="w-full h-full object-cover object-top hover:scale-110 transition-transform duration-500"
               />
             </div>
           ))}

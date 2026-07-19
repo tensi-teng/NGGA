@@ -164,7 +164,7 @@ function VideosTab() {
             >
               <video
                 src={item.src}
-                className="w-full h-full object-cover object-top opacity-65"
+                className="w-full h-full object-cover object-top"
                 preload="metadata"
                 playsInline
               />

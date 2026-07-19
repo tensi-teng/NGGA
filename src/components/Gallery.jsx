@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { galleryEvents, resolvedVideoItems } from "../utils/gallery";
 import { IconArrowRight } from "./Icons";
@@ -89,7 +89,9 @@ function VideoLightbox({ item, onClose }) {
 // ── Short looping video thumbnail ─────────────────────────────────────────────
 function VideoThumb({ item, onClick }) {
   const ref = useRef(null);
+  const wrapRef = useRef(null);
 
+  // Desktop: play on hover
   function handleMouseEnter() {
     if (ref.current) {
       ref.current.currentTime = 0;
@@ -103,15 +105,38 @@ function VideoThumb({ item, onClick }) {
     }
   }
 
+  // Mobile: play a short clip when the card scrolls into view
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el || !ref.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const vid = ref.current;
+        if (!vid) return;
+        if (entry.isIntersecting) {
+          vid.currentTime = 0;
+          vid.play().catch(() => {});
+        } else {
+          vid.pause();
+          vid.currentTime = 0;
+        }
+      },
+      { threshold: 0.6 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
+      ref={wrapRef}
       onClick={onClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="relative rounded-3xl overflow-hidden cursor-pointer group bg-gray-900"
+      className="relative rounded-3xl overflow-hidden cursor-pointer group bg-black"
       style={{ height: "260px" }}
     >
-      {/* video plays a short clip on hover, stays as poster otherwise */}
       <video
         ref={ref}
         src={item.src}
@@ -120,15 +145,12 @@ function VideoThumb({ item, onClick }) {
         playsInline
         muted
         loop
-        /* only play the first 6 s */
         onTimeUpdate={(e) => {
-          if (e.target.currentTime >= 6) {
-            e.target.currentTime = 0;
-          }
+          if (e.target.currentTime >= 6) e.target.currentTime = 0;
         }}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-      {/* play icon — hidden while hovering */}
+      {/* play icon — fades out while playing */}
       <div className="absolute inset-0 flex items-center justify-center group-hover:opacity-0 transition-opacity duration-200">
         <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
