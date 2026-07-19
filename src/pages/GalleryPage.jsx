@@ -1,72 +1,14 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { galleryEvents, resolvedVideoItems } from "../utils/gallery";
+import SwipeLightbox from "../components/SwipeLightbox";
 
-// ── Lightbox ──────────────────────────────────────────────────────────────────
-function Lightbox({ item, onClose }) {
-  if (!item) return null;
-  return (
-    <div
-      className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
-      onClick={onClose}
-    >
-      <div
-        className="relative max-w-4xl w-full rounded-3xl overflow-hidden bg-black"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <img
-          src={item.src}
-          alt={item.key}
-          className="w-full max-h-[88vh] object-contain"
-        />
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/70 text-white flex items-center justify-center text-lg font-bold hover:bg-black"
-        >
-          ×
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// ── Video Lightbox ─────────────────────────────────────────────────────────────
-function VideoLightbox({ item, onClose }) {
-  if (!item) return null;
-  return (
-    <div
-      className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
-      onClick={onClose}
-    >
-      <div
-        className="relative max-w-3xl w-full bg-black rounded-3xl overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <video
-          src={item.src}
-          className="w-full max-h-[70vh] object-contain bg-black"
-          controls
-          autoPlay
-          playsInline
-        />
-        <div className="p-5">
-          <h3 className="text-xl font-black text-white uppercase">{item.title}</h3>
-        </div>
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 text-white flex items-center justify-center text-lg font-bold hover:bg-white/20"
-        >
-          ×
-        </button>
-      </div>
-    </div>
-  );
-}
+// ── Lightbox / VideoLightbox replaced by SwipeLightbox ───────────────────────
 
 // ── Event Accordion ───────────────────────────────────────────────────────────
 function EventAccordion({ event }) {
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState(null);
+  const [activeIdx, setActiveIdx] = useState(null);
 
   return (
     <div className="border border-white/10 rounded-2xl overflow-hidden mb-4">
@@ -91,16 +33,7 @@ function EventAccordion({ event }) {
             open ? "rotate-180" : ""
           }`}
         >
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="m6 9 6 6 6-6" />
           </svg>
         </div>
@@ -113,14 +46,14 @@ function EventAccordion({ event }) {
             {event.images.map((img, i) => (
               <div
                 key={i}
-                onClick={() => setActive(img)}
+                onClick={() => setActiveIdx(i)}
                 className="rounded-xl overflow-hidden cursor-pointer group"
                 style={{ aspectRatio: "1 / 1" }}
               >
                 <img
                   src={img.src}
                   alt={`${event.title} ${i + 1}`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
             ))}
@@ -128,7 +61,13 @@ function EventAccordion({ event }) {
         </div>
       )}
 
-      <Lightbox item={active} onClose={() => setActive(null)} />
+      <SwipeLightbox
+        items={event.images}
+        index={activeIdx}
+        onClose={() => setActiveIdx(null)}
+        onNav={setActiveIdx}
+        type="image"
+      />
     </div>
   );
 }
@@ -145,8 +84,79 @@ function ImagesTab() {
 }
 
 // ── Videos Tab ────────────────────────────────────────────────────────────────
+
+function VideoThumb({ item, onClick }) {
+  const ref = useRef(null);
+  const wrapRef = useRef(null);
+
+  // Desktop: hover to preview
+  function handleMouseEnter() {
+    if (ref.current) { ref.current.currentTime = 0; ref.current.play().catch(() => {}); }
+  }
+  function handleMouseLeave() {
+    if (ref.current) { ref.current.pause(); ref.current.currentTime = 0; }
+  }
+
+  // Mobile: play when scrolled into view
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el || !ref.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const vid = ref.current;
+        if (!vid) return;
+        if (entry.isIntersecting) {
+          vid.currentTime = 0;
+          vid.play().catch(() => {});
+        } else {
+          vid.pause();
+          vid.currentTime = 0;
+        }
+      },
+      { threshold: 0.6 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={wrapRef}
+      onClick={onClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className="rounded-2xl overflow-hidden relative group cursor-pointer bg-black"
+      style={{ height: "280px" }}
+    >
+      <video
+        ref={ref}
+        src={item.src}
+        className="w-full h-full object-cover object-top"
+        preload="metadata"
+        playsInline
+        muted
+        loop
+        onTimeUpdate={(e) => {
+          if (e.target.currentTime >= 6) e.target.currentTime = 0;
+        }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+      <div className="absolute inset-0 flex items-center justify-center group-hover:opacity-0 transition-opacity duration-200">
+        <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+            <polygon points="5,3 19,12 5,21" />
+          </svg>
+        </div>
+      </div>
+      <div className="absolute bottom-0 left-0 right-0 p-4">
+        <h3 className="text-lg font-black text-white uppercase">{item.title}</h3>
+      </div>
+    </div>
+  );
+}
+
 function VideosTab() {
-  const [active, setActive] = useState(null);
+  const [activeIdx, setActiveIdx] = useState(null);
   const videos = resolvedVideoItems.filter((v) => v.src);
 
   return (
@@ -156,34 +166,17 @@ function VideosTab() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {videos.map((item, i) => (
-            <div
-              key={i}
-              onClick={() => setActive(item)}
-              className="rounded-2xl overflow-hidden relative group cursor-pointer bg-gray-900"
-              style={{ height: "280px" }}
-            >
-              <video
-                src={item.src}
-                className="w-full h-full object-cover object-top"
-                preload="metadata"
-                playsInline
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/35 transition-colors">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                    <polygon points="5,3 19,12 5,21" />
-                  </svg>
-                </div>
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <h3 className="text-lg font-black text-white uppercase">{item.title}</h3>
-              </div>
-            </div>
+            <VideoThumb key={i} item={item} onClick={() => setActiveIdx(i)} />
           ))}
         </div>
       )}
-      <VideoLightbox item={active} onClose={() => setActive(null)} />
+      <SwipeLightbox
+        items={videos}
+        index={activeIdx}
+        onClose={() => setActiveIdx(null)}
+        onNav={setActiveIdx}
+        type="video"
+      />
     </div>
   );
 }
