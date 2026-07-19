@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { galleryEvents, resolvedVideoItems } from "../utils/gallery";
 import { IconArrowRight } from "./Icons";
+import SwipeLightbox from "./SwipeLightbox";
 
 // ── Pick a handful of images spread across all event folders ──────────────────
 function pickImages() {
@@ -26,65 +27,10 @@ const previewImages = pickImages();
 const previewVideos = resolvedVideoItems.filter((v) => v.src).slice(0, 4);
 
 // ── Lightbox ──────────────────────────────────────────────────────────────────
-function Lightbox({ item, onClose }) {
-  if (!item) return null;
-  return (
-    <div
-      className="fixed inset-0 z-50 bg-black/92 flex items-center justify-center p-4"
-      onClick={onClose}
-    >
-      <div
-        className="relative max-w-3xl w-full rounded-3xl overflow-hidden bg-black"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <img
-          src={item.src}
-          alt={item.key}
-          className="w-full max-h-[88vh] object-contain"
-        />
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/60 text-white flex items-center justify-center text-lg font-bold hover:bg-black"
-        >
-          ×
-        </button>
-      </div>
-    </div>
-  );
-}
+// (replaced by SwipeLightbox)
 
 // ── Video lightbox ─────────────────────────────────────────────────────────────
-function VideoLightbox({ item, onClose }) {
-  if (!item) return null;
-  return (
-    <div
-      className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
-      onClick={onClose}
-    >
-      <div
-        className="relative max-w-3xl w-full bg-black rounded-3xl overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <video
-          src={item.src}
-          className="w-full max-h-[70vh] object-contain bg-black"
-          controls
-          autoPlay
-          playsInline
-        />
-        <div className="p-5">
-          <h3 className="text-xl font-black text-white uppercase">{item.title}</h3>
-        </div>
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 text-white flex items-center justify-center text-lg font-bold hover:bg-white/20"
-        >
-          ×
-        </button>
-      </div>
-    </div>
-  );
-}
+// (replaced by SwipeLightbox)
 
 // ── Short looping video thumbnail ─────────────────────────────────────────────
 function VideoThumb({ item, onClick }) {
@@ -158,19 +104,15 @@ function VideoThumb({ item, onClick }) {
           </svg>
         </div>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 p-4">
-        <h3 className="text-base font-black text-white uppercase leading-tight">
-          {item.title}
-        </h3>
-      </div>
+
     </div>
   );
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function Gallery() {
-  const [activePhoto, setActivePhoto] = useState(null);
-  const [activeVideo, setActiveVideo] = useState(null);
+  const [photoIdx, setPhotoIdx] = useState(null);
+  const [videoIdx, setVideoIdx] = useState(null);
 
   return (
     <section className="py-20 px-6" id="gallery">
@@ -196,14 +138,14 @@ export default function Gallery() {
           {previewImages.map((img, i) => (
             <div
               key={i}
-              onClick={() => setActivePhoto(img)}
+              onClick={() => setPhotoIdx(i)}
               className="relative flex-shrink-0 rounded-2xl overflow-hidden cursor-pointer group"
               style={{ width: "220px", height: "280px" }}
             >
               <img
                 src={img.src}
                 alt={`Gallery photo ${i + 1}`}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
             </div>
@@ -229,18 +171,30 @@ export default function Gallery() {
         <div className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-1 lg:grid lg:grid-cols-4 lg:overflow-visible lg:pb-0">
           {previewVideos.map((item, i) => (
             <div key={i} className="snap-start flex-shrink-0 w-72 lg:w-auto lg:flex-shrink">
-              <VideoThumb
-                item={item}
-                onClick={() => setActiveVideo(item)}
-              />
+              <VideoThumb item={item} onClick={() => setVideoIdx(i)} />
             </div>
           ))}
         </div>
 
       </div>
 
-      <Lightbox item={activePhoto} onClose={() => setActivePhoto(null)} />
-      <VideoLightbox item={activeVideo} onClose={() => setActiveVideo(null)} />
+      {/* Swipeable photo lightbox */}
+      <SwipeLightbox
+        items={previewImages}
+        index={photoIdx}
+        onClose={() => setPhotoIdx(null)}
+        onNav={setPhotoIdx}
+        type="image"
+      />
+
+      {/* Swipeable video lightbox */}
+      <SwipeLightbox
+        items={previewVideos}
+        index={videoIdx}
+        onClose={() => setVideoIdx(null)}
+        onNav={setVideoIdx}
+        type="video"
+      />
     </section>
   );
 }
