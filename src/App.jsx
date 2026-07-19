@@ -11,6 +11,7 @@ import Marquee from './components/Marquee'
 import CTASection from './components/CTASection'
 import Footer from './components/Footer'
 import GalleryPage from './pages/GalleryPage'
+import AboutPage from './pages/AboutPage'
 
 function Landing({ mobileMenuOpen, setMobileMenuOpen, scrolled }) {
   return (
@@ -62,6 +63,7 @@ export default function App() {
           }
         />
         <Route path="/gallery" element={<GalleryPage />} />
+        <Route path="/about" element={<AboutPage />} />
       </Routes>
     </BrowserRouter>
   )

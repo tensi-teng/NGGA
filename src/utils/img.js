@@ -1,12 +1,21 @@
-// Vite imports all assets in /assests as a map via import.meta.glob
-const assetModules = import.meta.glob('/assests/*.{jpg,jpeg,png,mp4,webp}', { eager: true });
+// Vite imports all assets in /assests (including subfolders) as a map via import.meta.glob
+const assetModules = import.meta.glob('/assests/**/*.{jpg,jpeg,png,mp4,webp}', { eager: true });
 
 // Build a name → url map: e.g. "hero-01" → "/assests/hero-01.jpg"
+// For subfolders, key is "FolderName/filename" e.g. "Birthday/birthday-01"
 const assetMap = {};
 for (const [filePath, mod] of Object.entries(assetModules)) {
   const filename = filePath.split('/').pop(); // e.g. "hero-01.jpg"
   const key = filename.replace(/\.[^.]+$/, '');  // strip extension → "hero-01"
   assetMap[key] = mod.default;
+
+  // Also store with folder prefix for subfolders: "Birthday/birthday-01"
+  const parts = filePath.split('/');
+  if (parts.length > 3) { // /assests/Folder/file.jpg has 4 parts
+    const folder = parts[parts.length - 2];
+    const folderKey = `${folder}/${key}`;
+    assetMap[folderKey] = mod.default;
+  }
 }
 
 /**

@@ -1,24 +1,16 @@
-import { IconTrefoil, IconFacebook, IconInstagram, IconTwitter } from './Icons'
+import { IconFacebook, IconInstagram, IconTwitter } from './Icons'
+import logoImg from '/assests/logo.jpeg'
 
 export default function Footer() {
   return (
     <footer className="bg-black border-t border-white/10 py-16 px-6" id="contact">
-      <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
         <div className="md:col-span-1">
-          <IconTrefoil size={36} />
+          <img src={logoImg} alt="NGGA Logo" className="h-14 w-auto object-contain mb-3" />
           <h2 className="text-3xl font-black mt-3 mb-2">Be Prepared.</h2>
           <p className="text-gray-500 text-sm leading-relaxed max-w-[260px]">
             The Nigerian Girl Guides Association — a member of the World Association of Girl Guides and Girl Scouts, guiding girls and young women across 30 states.
           </p>
-        </div>
-        <div>
-          <h4 className="font-bold mb-4 text-xs uppercase tracking-widest text-[#c98f1f] dark:text-[#F4B740]">About</h4>
-          <ul className="space-y-2 text-gray-500 text-sm">
-            <li><a href="#" className="hover:text-white transition-colors">Who We Are</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Our Mission</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Our Vision</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">The Guide Law</a></li>
-          </ul>
         </div>
         <div>
           <h4 className="font-bold mb-4 text-xs uppercase tracking-widest text-[#c98f1f] dark:text-[#F4B740]">Get Involved</h4>
@@ -51,9 +43,6 @@ export default function Footer() {
       </div>
       <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
         <p className="text-gray-600 text-xs">© 2026 The Nigerian Girl Guides Association. On my honor, I promise.</p>
-        <p className="text-gray-700 text-[11px] max-w-md text-center md:text-right">
-          Sample landing page — contact details, addresses and statistics are placeholders for NGGA to confirm and replace with official information.
-        </p>
       </div>
     </footer>
   )

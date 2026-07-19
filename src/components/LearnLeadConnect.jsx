@@ -11,12 +11,9 @@ export default function LearnLeadConnect() {
             <br />
             &amp; Connect.
           </h2>
-          <p className="text-gray-400 text-lg mb-8 max-w-md leading-relaxed">
+          <p className="text-gray-400 text-lg mb-2 max-w-md leading-relaxed">
             Discover what makes guiding an immersive journey. Every guide moves through badge work, patrol life and the Guide Promise — a lasting connection between herself and her sisterhood, from Brownie to Guider.
           </p>
-          <button className="border-2 border-white text-white px-8 py-3 rounded-full font-bold text-sm hover:bg-white hover:text-black transition-all flex items-center gap-2 uppercase">
-            See Our Programs <IconArrowRight />
-          </button>
         </div>
         <div className="flex justify-center">
           <div className="w-72 h-[580px] bg-black rounded-[3rem] border-4 border-gray-700 overflow-hidden relative">
@@ -30,7 +27,6 @@ export default function LearnLeadConnect() {
                 <br />
                 I PROMISE
               </h3>
-              <div className="mt-auto text-white/60 font-bold text-xs uppercase tracking-wider">Tap To Recite ↓</div>
             </div>
           </div>
         </div>

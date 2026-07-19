@@ -7,7 +7,7 @@ export default function Marquee() {
         <div className="flex gap-8 whitespace-nowrap marquee-track">
           {[1, 2].map(i => (
             <span key={i} className="font-black text-2xl uppercase flex items-center gap-8 flex-shrink-0">
-              NATIONWIDE <IconArrowRight size={22} /> GIRL-LED <IconArrowRight size={22} /> VALUES-BASED <IconArrowRight size={22} /> ACROSS 30 STATES <IconArrowRight size={22} /> JOIN US → JOIN US → JOIN
+              NATIONWIDE <IconArrowRight size={22} /> GIRL LED <IconArrowRight size={22} /> VALUES BASED <IconArrowRight size={22} /> ACROSS 30 STATES <IconArrowRight size={22} /> JOIN US → JOIN US → JOIN
             </span>
           ))}
         </div>

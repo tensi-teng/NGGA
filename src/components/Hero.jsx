@@ -1,16 +1,19 @@
 import { IconArrowRight } from './Icons'
-import { asset } from '../utils/img'
+import assetMap from '../utils/img'
 
 const tiles = [
-  { key: 'hero-01', t: 'Camp Life',   h: 'h-28' },
-  { key: 'hero-02', t: 'Sisterhood',  h: 'h-40' },
-  { key: 'hero-03', t: 'Badge Work',  h: 'h-32' },
-  { key: 'hero-04', t: 'Leadership',  h: 'h-36' },
-  { key: 'hero-05', t: 'Community',   h: 'h-28' },
-  { key: 'hero-06', t: 'Outdoors',    h: 'h-40' },
-  { key: 'hero-07', t: 'Ceremony',    h: 'h-32' },
-  { key: 'hero-08', t: 'Craft',       h: 'h-40' },
-  { key: 'hero-09', t: 'Guides',      h: 'h-28' },
+  // Thinking Day — col 1
+  { key: 'Thinking day/thinking-day-08', h: 'h-40', t: 'Thinking Day' },
+  { key: 'Thinking day/thinking-day-22', h: 'h-28', t: 'Thinking Day' },
+  { key: 'Thinking day/thinking-day-45', h: 'h-36', t: 'Thinking Day' },
+  // Birthday — col 2
+  { key: 'Birthday/birthday-02',         h: 'h-28', t: 'Birthday'     },
+  { key: 'Birthday/birthday-05',         h: 'h-40', t: 'Birthday'     },
+  { key: 'Birthday/birthday-10',         h: 'h-32', t: 'Birthday'     },
+  // Thanksgiving — col 3
+  { key: 'Thanksgiving/thanksgiving-01', h: 'h-36', t: 'Thanksgiving' },
+  { key: 'Thanksgiving/thanksgiving-02', h: 'h-28', t: 'Thanksgiving' },
+  { key: 'Thanksgiving/thanksgiving-03', h: 'h-40', t: 'Thanksgiving' },
 ]
 
 export default function Hero() {
@@ -40,11 +43,11 @@ export default function Hero() {
         </div>
         <div className="columns-3 gap-3">
           {tiles.map((item, i) => (
-            <div key={i} className={`${item.h} mb-3 break-inside-avoid rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-800`}>
+            <div key={i} className={`${item.h} mb-3 break-inside-avoid rounded-2xl overflow-hidden bg-gray-800`}>
               <img
-                src={asset(item.key, 200, 200, item.t)}
+                src={assetMap[item.key]}
                 alt={item.t}
-                className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                className="w-full h-full object-cover object-bottom hover:scale-110 transition-transform duration-500"
               />
             </div>
           ))}

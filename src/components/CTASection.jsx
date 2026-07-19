@@ -1,56 +1,45 @@
-import { asset } from '../utils/img'
+import { Link } from 'react-router-dom'
+import { IconArrowRight } from './Icons'
 
 export default function CTASection() {
   return (
-    <section className="py-20 px-6">
+    <section className="py-24 px-6 overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-6">
 
-          {/* Join Us card */}
-          <div className="relative rounded-3xl overflow-hidden aspect-[4/3] flex items-end p-6">
-            <img
-              src={asset('cta-join', 600, 450, 'Join Us')}
-              alt="Join the Girl Guides"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
-            <div
-              className="absolute left-[-10%] w-[120%] bg-black text-white font-black uppercase text-sm py-2 whitespace-nowrap overflow-hidden -rotate-3 z-10"
-              style={{ top: '38%' }}
-            >
-              <span className="inline-block px-4">JOIN US → BECOME A GUIDE → JOIN US → BECOME A GUIDE</span>
-            </div>
-            <div className="relative z-10">
-              <h3 className="text-2xl font-black text-white uppercase leading-tight mb-2">Become a Guide</h3>
-              <p className="text-white/75 text-sm max-w-xs leading-relaxed">
-                Join a sisterhood of girls across 30 states. Start your journey today.
-              </p>
-            </div>
-          </div>
+        {/* Big editorial CTA */}
+        <div className="relative rounded-3xl bg-[#E8447A] overflow-hidden px-8 py-16 md:px-16 md:py-20 flex flex-col items-start gap-8">
 
-          {/* Our Programs card */}
-          <div className="relative rounded-3xl overflow-hidden aspect-[4/3] flex items-end p-6">
-            <img
-              src={asset('cta-programs', 600, 450, 'Our Programs')}
-              alt="Our Programs"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
-            <div
-              className="absolute left-[-10%] w-[120%] bg-black text-white font-black uppercase text-sm py-2 whitespace-nowrap overflow-hidden -rotate-3 z-10"
-              style={{ bottom: '38%', top: 'auto' }}
+          {/* Large watermark text */}
+          <span
+            aria-hidden="true"
+            className="absolute right-[-2%] top-1/2 -translate-y-1/2 font-black uppercase leading-none select-none pointer-events-none text-white/10"
+            style={{ fontSize: 'clamp(80px, 18vw, 200px)' }}
+          >
+            JOIN
+          </span>
+
+          <div className="relative z-10 max-w-2xl">
+            <span className="text-white/60 text-xs font-bold uppercase tracking-[0.25em] mb-4 block">
+              Nigerian Girl Guides Association — Rivers State
+            </span>
+            <h2
+              className="font-black text-white leading-[0.9] tracking-tight mb-6"
+              style={{ fontSize: 'clamp(42px, 8vw, 96px)' }}
             >
-              <span className="inline-block px-4">OUR PROGRAMS → SEE WHAT WE DO → OUR PROGRAMS → SEE WHAT WE DO</span>
-            </div>
-            <div className="relative z-10">
-              <h3 className="text-2xl font-black text-white uppercase leading-tight mb-2">Our Programs</h3>
-              <p className="text-white/75 text-sm max-w-xs leading-relaxed">
-                From badge work to camping, discover the full range of what NGGA offers.
-              </p>
-            </div>
+              Every girl
+              <br />
+              deserves to
+              <br />
+              <span className="text-black">be a Guide.</span>
+            </h2>
+            <p className="text-white/80 text-lg leading-relaxed max-w-md mb-8">
+              Join a sisterhood that spans 30 states and over 10 million girls worldwide.
+              Learn, lead, speak out and serve — starting today.
+            </p>
           </div>
 
         </div>
+
       </div>
     </section>
   )

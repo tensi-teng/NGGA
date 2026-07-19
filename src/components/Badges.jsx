@@ -1,5 +1,3 @@
-import { IconArrowRight } from './Icons'
-
 const badges = [
   { label: 'Camping',           color: 'bg-[#E8447A] text-white' },
   { label: 'First Aid',         color: 'bg-black text-white dark:bg-white dark:text-black' },
@@ -25,9 +23,7 @@ export default function Badges() {
           <p className="text-gray-400 text-lg mb-8 max-w-md leading-relaxed">
             Every guide earns her way. From outdoor adventure to community service, badges mark real skills built and real challenges met.
           </p>
-          <button className="bg-white text-black px-8 py-3 rounded-full font-bold text-sm hover:opacity-80 transition-opacity flex items-center gap-2 uppercase">
-            See All Badges <IconArrowRight />
-          </button>
+
         </div>
         <div className="flex flex-wrap gap-3">
           {badges.map((tag, i) => (

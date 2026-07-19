@@ -1,9 +1,10 @@
-import { IconTrefoil, IconMenu, IconX } from './Icons'
+import { IconMenu, IconX } from './Icons'
 import { Link } from 'react-router-dom'
+import logoImg from '/assests/logo.jpeg'
 
 const navLinks = [
   { label: 'Home',       href: '#home' },
-  { label: 'About Us',   href: '#about' },
+  { label: 'About',      href: '/about', isRoute: true },
   { label: 'Gallery',    href: '/gallery', isRoute: true },
   { label: 'Contact Us', href: '#contact' },
 ]
@@ -13,12 +14,7 @@ export default function Navbar({ scrolled, mobileMenuOpen, setMobileMenuOpen }) 
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-black/95 backdrop-blur-md py-3 border-b border-white/10' : 'bg-transparent py-5'}`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <a href="#home" className="flex items-center gap-2">
-          <IconTrefoil size={30} />
-          <span className="font-black text-lg tracking-tight leading-none text-white">
-            NGGA
-            <br />
-            <small className="text-[9px] font-bold tracking-widest text-[#F4B740] block">NIGERIAN GIRL GUIDES</small>
-          </span>
+          <img src={logoImg} alt="NGGA Logo" className="h-10 w-auto object-contain" />
         </a>
 
         <div className="hidden md:flex items-center gap-8">
