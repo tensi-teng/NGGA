@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { galleryEvents, resolvedVideoItems } from "../utils/gallery";
 
 // ── Lightbox ──────────────────────────────────────────────────────────────────
@@ -190,7 +190,8 @@ function VideosTab() {
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function GalleryPage() {
-  const [tab, setTab] = useState("images");
+  const [searchParams] = useSearchParams();
+  const [tab, setTab] = useState(searchParams.get("tab") === "videos" ? "videos" : "images");
 
   return (
     <div className="min-h-screen bg-black text-white font-sans">

@@ -196,7 +196,7 @@ export default function Gallery() {
             IN MOTION
           </h3>
           <Link
-            to="/gallery"
+            to="/gallery?tab=videos"
             className="flex items-center gap-2 border-2 border-white text-white px-6 py-2.5 rounded-full font-bold text-sm hover:bg-white hover:text-black transition-all uppercase"
           >
             All Videos <IconArrowRight />
