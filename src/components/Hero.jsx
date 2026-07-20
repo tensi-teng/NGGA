@@ -1,23 +1,21 @@
 import { IconArrowRight } from './Icons'
 import assetMap from '../utils/img'
 
-// Pull every image from all event folders and shuffle them once at load time
-const allImages = Object.keys(assetMap)
-  .filter((k) => /\/(thinking-day|birthday|thanksgiving|meeting)-/.test(k) && !k.includes('vid-'))
-  .map((k) => assetMap[k])
-
-function shuffle(arr) {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
-
-// 9 random images, varying heights for the masonry feel
-const heights = ['h-40', 'h-28', 'h-36', 'h-28', 'h-40', 'h-32', 'h-36', 'h-28', 'h-40']
-const shuffled = shuffle(allImages).slice(0, 9)
+// Fixed 9-tile collage: first 4 from event folders, last 5 are the new named assets
+const tiles = [
+  // top row — keep these (no X)
+  { src: assetMap['Thinking day/thinking-day-08'], h: 'h-40' },
+  { src: assetMap['Birthday/birthday-02'],         h: 'h-28' },
+  { src: assetMap['Thanksgiving/thanksgiving-01'], h: 'h-36' },
+  // middle row — replace with new images
+  { src: assetMap['softcare'],  h: 'h-28' },
+  { src: assetMap['talk'],      h: 'h-40' },
+  { src: assetMap['marching'],  h: 'h-32' },
+  // bottom row — replace with new images
+  { src: assetMap['pressure'],  h: 'h-36' },
+  { src: assetMap['3'],         h: 'h-28' },
+  { src: assetMap['Thinking day/thinking-day-22'], h: 'h-40' },
+]
 
 export default function Hero() {
   return (
@@ -45,12 +43,12 @@ export default function Hero() {
           </div>
         </div>
         <div className="columns-3 gap-3">
-          {shuffled.map((src, i) => (
-            <div key={i} className={`${heights[i]} mb-3 break-inside-avoid rounded-2xl overflow-hidden bg-gray-800`}>
+          {tiles.map((item, i) => (
+            <div key={i} className={`${item.h} mb-3 break-inside-avoid rounded-2xl overflow-hidden bg-gray-800`}>
               <img
-                src={src}
+                src={item.src}
                 alt="NGGA"
-                className="w-full h-full object-cover object-top hover:scale-110 transition-transform duration-500"
+                className="w-full h-full object-cover object-bottom hover:scale-110 transition-transform duration-500"
               />
             </div>
           ))}
