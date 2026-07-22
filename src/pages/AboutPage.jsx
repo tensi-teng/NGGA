@@ -55,7 +55,7 @@ export default function AboutPage() {
               We are a uniform Association. We have hierarchy starting from: Chief Commissioner, Deputy Chief Commissioner, National Officers, State Commissioners, Assistant State commissioner, Divisional Commissioner, District commissioners, Guiders, Rangers, Guides and Brownies.
             </p>
             <p className="text-gray-400 leading-relaxed">
-              NGGA works with young girls and women across 30 States in Nigeria, we learn through our non-formal educational programs.
+              NGGA works with young girls and women across 34 States in Nigeria, we learn through our non-formal educational programs.
             </p>
           </div>
 

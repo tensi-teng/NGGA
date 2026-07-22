@@ -1,15 +1,40 @@
 import assetMap from "./img";
 
-// ── Helper: grab all keys that belong to a folder ─────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────────────────────
+// Images: all jpg/jpeg/png keys under a folder (excludes video-named files)
 function folderImages(folderName) {
-  return Object.keys(assetMap)
-    .filter((k) => k.startsWith(`${folderName}/`))
-    .sort()
-    .map((k) => ({ key: k, src: assetMap[k] }));
+  return Object.entries(assetMap)
+    .filter(([k]) => {
+      if (!k.startsWith(`${folderName}/`)) return false;
+      // exclude mp4/video keys — they contain "vid" in the filename
+      const filename = k.split('/').pop();
+      return !filename.includes('vid');
+    })
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([key, src]) => ({ key, src }));
+}
+
+// Videos: all mp4 keys under a folder — filename contains "vid"
+function folderVideos(folderName, title) {
+  return Object.entries(assetMap)
+    .filter(([k]) => {
+      if (!k.startsWith(`${folderName}/`)) return false;
+      const filename = k.split('/').pop();
+      return filename.includes('vid');
+    })
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([key, src]) => ({ key, src, title }));
 }
 
 // ── Events ────────────────────────────────────────────────────────────────────
 export const galleryEvents = [
+  {
+    id: "cambodia",
+    title: "Nigerian Delegation at the 39th WAGGGS World Conference",
+    description:
+      "🇳🇬 Nigerian Delegation Arrives in Cambodia for the 39th WAGGGS World Conference 🇰🇭 After an extensive journey of over 22 hours, the Nigerian delegation has safely arrived in Siem Reap, Cambodia, to participate in the 39th World Conference of the World Association of Girl Guides and Girl Scouts (WAGGGS). We are deeply grateful for a safe and successful journey and excited to join fellow Girl Guides and Girl Scouts from across the globe. The Conference provides a unique platform to exchange ideas, share experiences, strengthen global partnerships, learn from one another, and contribute to important discussions that will shape the future of our Movement. The Nigerian delegation comprises: Deaconess Rhoda Olufunmilola Thomas – Chief Commissioner, Head of Delegation | Mrs. Tejiri Okeregbe, MNIM – International Commissioner, Delegate | Ms. Afomachi Obiora – Young Leader, Observer | Dr. Kalalali Asimini-Hart – State Commissioner, Delegate Observer | Mrs. Asmau Nephatiti Aliyu – National Youth Commissioner, International Service Team (IST).",
+    images: folderImages("cambodia"),
+  },
   {
     id: "thinking-day",
     title: "World Thinking Day 100th Anniversary",
@@ -41,24 +66,29 @@ export const galleryEvents = [
 ];
 
 // ── Videos pool ───────────────────────────────────────────────────────────────
-export const videoItems = [
-  { key: "vid-01", title: "Camp Life" },
-  { key: "vid-02", title: "Sisterhood" },
-  { key: "vid-03", title: "Badge Work" },
-  { key: "vid-04", title: "Leadership" },
-  { key: "vid-05", title: "Community Service" },
-  { key: "vid-06", title: "Outdoor Adventure" },
-  { key: "vid-07", title: "Ceremony" },
-  { key: "vid-08", title: "The Promise" },
-  { key: "vid-09", title: "Guiding Moments" },
-  { key: "vid-10", title: "Our Sisterhood" },
-];
-
-export const resolvedVideoItems = videoItems.map((v) => ({
+const mainVideos = [
+  { key: "vid-01", },
+  { key: "vid-02", },
+  { key: "vid-03", },
+  { key: "vid-04", },
+  { key: "vid-05", },
+  { key: "vid-06", },
+  { key: "vid-07", },
+  { key: "vid-08", },
+  { key: "vid-09", },
+  { key: "vid-10"  },
+].map((v) => ({
   ...v,
   src: assetMap[`videos/${v.key}`] ?? assetMap[v.key] ?? null,
 }));
 
-// ── Legacy exports (kept for backward compat) ─────────────────────────────────
+const cambodiaVideos = folderVideos("cambodia", "Cambodia — WAGGGS World Conference");
+
+export const resolvedVideoItems = [
+  ...mainVideos,
+  ...cambodiaVideos,
+].filter((v) => v.src);
+
+// ── Legacy exports ────────────────────────────────────────────────────────────
 export const galleryItems = [];
 export const resolvedGalleryItems = [];

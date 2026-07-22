@@ -9,7 +9,7 @@ export default function Footer() {
           <img src={logoImg} alt="NGGA Logo" className="h-14 w-auto object-contain mb-3" />
           <h2 className="text-3xl font-black mt-3 mb-2">Be Prepared.</h2>
           <p className="text-gray-500 text-sm leading-relaxed max-w-[260px]">
-            The Nigerian Girl Guides Association — a member of the World Association of Girl Guides and Girl Scouts, guiding girls and young women across 30 states.
+            The Nigerian Girl Guides Association — a member of the World Association of Girl Guides and Girl Scouts, guiding girls and young women across 34 states.
           </p>
         </div>
         <div>

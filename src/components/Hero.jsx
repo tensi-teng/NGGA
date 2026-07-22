@@ -5,10 +5,10 @@ import assetMap from '../utils/img'
 const tiles = [
   // top row — keep these (no X)
   { src: assetMap['Thinking day/thinking-day-08'], h: 'h-40' },
-  { src: assetMap['Birthday/birthday-02'],         h: 'h-28' },
+  { src: assetMap['cambodia/cambodia-07'],         h: 'h-28' },
   { src: assetMap['Thanksgiving/thanksgiving-01'], h: 'h-36' },
   // middle row — replace with new images
-  { src: assetMap['softcare'],  h: 'h-28' },
+  { src: assetMap['softcare'],  h: 'h-28', pos: 'object-center' },
   { src: assetMap['talk'],      h: 'h-40' },
   { src: assetMap['marching'],  h: 'h-32' },
   // bottom row — replace with new images
@@ -31,7 +31,7 @@ export default function Hero() {
             <span className="text-white">REDEFINED.</span>
           </h1>
           <p className="text-gray-400 text-lg max-w-md mb-8 leading-relaxed">
-            A movement of girls and women across 30 states, building leadership, life skills and citizenship — one Promise, one badge, one Good Turn at a time. We are for any girl, and every girl.
+            A movement of girls and women across 34 states, building leadership, life skills and citizenship — one Promise, one badge, one Good Turn at a time. We are for any girl, and every girl.
           </p>
           <div className="flex flex-wrap gap-4">
             <a href="#contact" className="bg-white text-black px-8 py-3.5 rounded-full font-bold text-sm hover:opacity-80 transition-opacity flex items-center gap-2 uppercase">
@@ -48,7 +48,7 @@ export default function Hero() {
               <img
                 src={item.src}
                 alt="NGGA"
-                className="w-full h-full object-cover object-bottom hover:scale-110 transition-transform duration-500"
+                className={`w-full h-full object-cover ${item.pos ?? 'object-top'} hover:scale-110 transition-transform duration-500`}
               />
             </div>
           ))}

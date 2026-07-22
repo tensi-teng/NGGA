@@ -33,7 +33,7 @@ export default function CTASection() {
               <span className="text-black">be a Guide.</span>
             </h2>
             <p className="text-white/80 text-lg leading-relaxed max-w-md mb-8">
-              Join a sisterhood that spans 30 states and over 10 million girls worldwide.
+              Join a sisterhood that spans 34 states and over 10 million girls worldwide.
               Learn, lead, speak out and serve — starting today.
             </p>
           </div>

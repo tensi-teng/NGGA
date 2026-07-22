@@ -1,7 +1,7 @@
 const stats = [
-  ['30', 'States Nationwide'],
+  ['34', 'States Nationwide'],
   ['10M+', 'Guides Worldwide'],
-  ['150+', 'Countries'],
+  ['156', 'Countries'],
   ['WAGGGS', 'Member Body'],
   ['Non-Profit', 'Since Founding'],
 ]
@@ -33,7 +33,7 @@ export default function MakeGuiding() {
         </div>
 
         <p className="text-gray-400 max-w-2xl mx-auto mb-8 text-base sm:text-lg px-2">
-          We believe growth happens through doing. NGGA gives girls and young women dynamic, value-based training in life skills, leadership and citizenship — connecting every guide to a sisterhood of over 10 million guides across more than 150 countries.
+          We believe growth happens through doing. NGGA gives girls and young women dynamic, value-based training in life skills, leadership and citizenship — connecting every guide to a sisterhood of over 10 million guides across more than 156 countries.
         </p>
 
         {/* Stats bar */}

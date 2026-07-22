@@ -26,6 +26,8 @@ export default function LearnLeadConnect() {
                 HONOR
                 <br />
                 I PROMISE
+                <br />
+                TO DO MY BEST.
               </h3>
             </div>
           </div>
